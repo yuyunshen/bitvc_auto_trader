@@ -5,9 +5,9 @@ import hashlib
 import hmac
 import base64
 
-#在此输入您的Key
-ACCESS_KEY=""
-SECRET_KEY=""
+#在此添加您的key
+ACCESS_KEY="f5ca5300-8657051e-0b37292b-2680043f"
+SECRET_KEY="983691ad-7925f03c-08010420-02ac1921"
 
 
 def signature(params):
