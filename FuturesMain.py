@@ -15,13 +15,14 @@ def close_all_trades(order_type):
 
     for i in range(len(order_list['week'])):
         amount = order_list['week'][i]['money']
-        print amount
         # 如果是空单，那么平仓
         if order_list['week'][i]['tradeType'] == 2 and order_type == 2:
-            Trader.save_order(1, "week", 2, 1, limit_highest_price, amount, 10, Config.FUTURES_ORDER_SAVE)
+            print 'close short'
+            print Trader.save_order(1, "week", 2, 1, limit_highest_price, amount, 10, Config.FUTURES_ORDER_SAVE)
 
         # 如果是多单，那么平仓
         if order_list['week'][i]['tradeType'] == 1 and order_type == 1:
+            print 'close long'
             print Trader.save_order(1, "week", 2, 2, limit_lowest_price, amount, 10, Config.FUTURES_ORDER_SAVE)
 
 
@@ -46,7 +47,7 @@ if __name__ == "__main__":
         # 如果有挂单，全部取消将现有订单全部取消
         hold_orders = Trader.get_hold_order_list(1, "week", Config.FUTURES_ORDERS_LIST)
         for i in range(len(hold_orders['week'])):
-            print Trader.cancel_order(1, "week", hold_orders['week'][i]['id'], Config.FUTURES_CANCEL_ORDER)
+            Trader.cancel_order(1, "week", hold_orders['week'][i]['id'], Config.FUTURES_CANCEL_ORDER)
 
 
         # 获取当前最新价
@@ -70,12 +71,15 @@ if __name__ == "__main__":
                 # 如果有空单，先平掉
                 close_all_trades(2)
                 # 开多单
-                Trader.save_order(1, "week", 1, 1, cur_last, 10, 10, Config.FUTURES_ORDER_SAVE)
+                print 'buy'
+                print Trader.save_order(1, "week", 1, 1, cur_last, 10, 10, Config.FUTURES_ORDER_SAVE)
+
 
             # 快速均线下穿
             if ma_fast_old > ma_slow_old and ma_fast < ma_slow:
                 close_all_trades(1)
                 # 如果有多单，那么先平仓，在开空单
-                Trader.save_order(1, "week", 1, 2, cur_last, 10, 10, Config.FUTURES_ORDER_SAVE)
+                print 'sell'
+                print Trader.save_order(1, "week", 1, 2, cur_last, 10, 10, Config.FUTURES_ORDER_SAVE)
         count += 1
         time.sleep(1)
