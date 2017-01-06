@@ -65,6 +65,8 @@ if __name__ == "__main__":
             ma_slow = ma_slow * (slow_length - 1) / slow_length + cur_last / slow_length
             ma_fast = ma_fast * (fast_length - 1) / fast_length + cur_last / fast_length
 
+        print 'ma_slow: ' + str(ma_slow) + '   ma_fast: ' + str(ma_fast)
+
         if count > 50:
             # 快速均线上穿
             if ma_fast_old < ma_slow_old and ma_fast > ma_slow:
@@ -72,7 +74,7 @@ if __name__ == "__main__":
                 close_all_trades(2)
                 # 开多单
                 print 'buy'
-                print Trader.save_order(1, "week", 1, 1, cur_last, 10, 10, Config.FUTURES_ORDER_SAVE)
+                print Trader.save_order(1, "week", 1, 1, cur_last+10, 100, 10, Config.FUTURES_ORDER_SAVE)
 
 
             # 快速均线下穿
@@ -80,6 +82,6 @@ if __name__ == "__main__":
                 close_all_trades(1)
                 # 如果有多单，那么先平仓，在开空单
                 print 'sell'
-                print Trader.save_order(1, "week", 1, 2, cur_last, 10, 10, Config.FUTURES_ORDER_SAVE)
+                print Trader.save_order(1, "week", 1, 2, cur_last-10, 100, 10, Config.FUTURES_ORDER_SAVE)
         count += 1
         time.sleep(1)
