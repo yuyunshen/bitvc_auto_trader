@@ -153,6 +153,7 @@ class Trader:
         params['sign'] = sign
         del params['secretKey']
         params['leverage'] = leverage
+        params['tradePassword'] = 'Dawning@123'
 
         payload = urllib.urlencode(params)
         headers = {"content-type": "application/x-www-form-urlencoded"}
