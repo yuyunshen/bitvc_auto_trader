@@ -10,8 +10,8 @@ import time
 def close_all_trades(order_type):
     order_list = Trader.get_order_list(1, "week", Config.FUTURES_HOLD_ORDER_LIST)
     market_tick = Market.get_ticker_week(Config.FUTURES_TICKER_MD)
-    limit_lowest_price = market_tick['limit_lowest_price']
-    limit_highest_price = market_tick['limit_highest_price']
+    limit_lowest_price = float(market_tick['limit_lowest_price']) + 50
+    limit_highest_price = float(market_tick['limit_highest_price']) - 50
 
     for i in range(len(order_list['week'])):
         amount = order_list['week'][i]['money']
@@ -44,7 +44,7 @@ if __name__ == "__main__":
 
     while 1:
 
-        # 如果有挂单，全部取消将现有订单全部取消
+        # 如果有挂单，将现有订单全部取消
         hold_orders = Trader.get_hold_order_list(1, "week", Config.FUTURES_ORDERS_LIST)
         for i in range(len(hold_orders['week'])):
             Trader.cancel_order(1, "week", hold_orders['week'][i]['id'], Config.FUTURES_CANCEL_ORDER)
@@ -74,7 +74,7 @@ if __name__ == "__main__":
                 close_all_trades(2)
                 # 开多单
                 print 'buy'
-                print Trader.save_order(1, "week", 1, 1, cur_last+10, 100, 10, Config.FUTURES_ORDER_SAVE)
+                print Trader.save_order(1, "week", 1, 1, cur_last + 10, 100, 10, Config.FUTURES_ORDER_SAVE)
 
 
             # 快速均线下穿
@@ -82,6 +82,6 @@ if __name__ == "__main__":
                 close_all_trades(1)
                 # 如果有多单，那么先平仓，在开空单
                 print 'sell'
-                print Trader.save_order(1, "week", 1, 2, cur_last-10, 100, 10, Config.FUTURES_ORDER_SAVE)
+                print Trader.save_order(1, "week", 1, 2, cur_last - 10, 100, 10, Config.FUTURES_ORDER_SAVE)
         count += 1
         time.sleep(1)
