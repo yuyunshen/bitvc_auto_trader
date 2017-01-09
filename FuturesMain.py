@@ -34,7 +34,7 @@ if __name__ == "__main__":
     # 长短均线周期，秒
     fast_length = 180.0
     slow_length = 600.0
-    count = slow_length
+    count = 0
 
     TRADE_TYPE_LONG = 1
     TRADE_TYPE_SHORT = 2
